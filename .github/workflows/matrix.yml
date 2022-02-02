@@ -1,0 +1,22 @@
+name: brew test-bot
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+jobs:
+  test-bot:
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+          - os: ubuntu-latest
+            linux_only: 'hello'
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Print variable
+        env:
+          PRINTME: ${{ matrix.linux_only || 'goodbye' }}
+        run: echo "$PRINTME"
